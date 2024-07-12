@@ -152,7 +152,9 @@
     var useFrontCamera = false;
 
     function switchCamera() {
-      useFrontCamera = !useFrontCamera;  // Toggles the boolean value
+      console.log("Before toggle: ", useFrontCamera);
+      useFrontCamera = !useFrontCamera;
+      console.log("After toggle: ", useFrontCamera);
       startVideo(document.querySelector("#videoElement2"));
     }
 
