@@ -98,7 +98,7 @@
             </a>
           </div>
           <div class="col-2" class="d-flex justify-content-center">
-            <a href="#" class="d-flex justify-content-end" onclick="switchCamera()">
+            <a href="#" role="button" class="d-flex justify-content-end" onclick="switchCamera()">
               <h1 class="m-0">
                 <i class="bi bi-arrow-left-right text-white"></i>
               </h1>
@@ -152,7 +152,10 @@
     let useFrontCamera = false;
 
     function switchCamera() {
-      useFrontCamera = true;
+      
+      console.log("Before toggle: ", useFrontCamera);
+      useFrontCamera = !useFrontCamera;
+      console.log("After toggle: ", useFrontCamera);
       startVideo(document.querySelector("#videoElement2"));
     }
 
