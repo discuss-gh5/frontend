@@ -22,7 +22,8 @@
       font-family: 'Montserrat', sans-serif;
     }
 
-    #videoElement2 {
+    #videoElement2,
+    #videoElement {
       position: fixed;
       top: 0;
       left: 0;
@@ -31,6 +32,7 @@
       object-fit: cover;
       z-index: -1;
     }
+
 
     .content {
       position: relative;
@@ -48,16 +50,18 @@
 
     .subtitle p {
       color: black;
+      margin: 0;
     }
   </style>
 </head>
 
 <body>
-  <div class="offcanvas offcanvas-start w-75" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas offcanvas-start w-75" tabindex="-1" id="offcanvasExample"
+    aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header border-bottom">
       <span class="offcanvas-title d-flex" style="width: auto;">
-        <a href="index.html" style="width: auto;"
-          class=" d-flex align-items-center gap-1 text-decoration-none" id="offcanvasExampleLabel">
+        <a href="index.html" style="width: auto;" class=" d-flex align-items-center gap-1 text-decoration-none"
+          id="offcanvasExampleLabel">
           <img src="img/2.svg" class="img-fluid" width="20%" alt="">
           <h3 class="fw-bolder mb-0 text-dark">Lingclusive</h3>
         </a>
@@ -65,9 +69,26 @@
     </div>
     <div class="offcanvas-body px-0">
       <div class="d-flex flex-column" id="sidebar">
-        <a href="#" class="p-4 text-decoration-none text-dark">
-          <h6 class="mb-0 fw-bold"><i class="bi bi-question-circle"></i> Help Center</h6>
+        <a href="about_us.html" class="p-4 text-decoration-none text-dark">
+          <h6 class="mb-0 fw-bold"><i class="bi bi-info-circle"></i> About Us</h6>
         </a>
+      </div>
+    </div>
+  </div>
+
+   <div class="offcanvas offcanvas-start w-25" tabindex="-1" id="websidebar"
+    aria-labelledby="websidebarLabel">
+    <div class="offcanvas-header border-bottom">
+      <span class="offcanvas-title d-flex" style="width: auto;">
+        <a href="index.html" style="width: auto;" class=" d-flex align-items-center gap-1 text-decoration-none"
+          id="websidebarLabel">
+          <img src="img/2.svg" class="img-fluid" width="20%" alt="">
+          <h3 class="fw-bolder mb-0 text-dark">Lingclusive</h3>
+        </a>
+      </span>
+    </div>
+    <div class="offcanvas-body px-0">
+      <div class="d-flex flex-column" id="sidebar">
         <a href="about_us.html" class="p-4 text-decoration-none text-dark">
           <h6 class="mb-0 fw-bold"><i class="bi bi-info-circle"></i> About Us</h6>
         </a>
@@ -78,12 +99,47 @@
   <section class="d-lg-block d-none">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-8 p-0 m-0">
+        <div class="col-12 p-0 m-0">
           <video autoplay="true" id="videoElement" class="w-100 img-fluid"></video>
-        </div>
-        <div class="col-4">
-          <section class="p-4">
-            <h1 class="mb-0 display-3 fw-bold">Welcome!</h1>
+
+          <section class="content d-flex" style="width: 100vw; height: 100vh;">
+            <div class="d-flex flex-column justify-content-between" style="height: 100%;">
+              <div class="p-2">
+                <a data-bs-toggle="offcanvas" href="#websidebar" role="button" aria-controls="websidebar">
+                  <h1 class="m-0"><i class="bi bi-list text-white"></i></h1>
+                </a>
+              </div>
+              <div class="rounded subtitle d-flex p-2 justify-content-center gap-2 flex-wrap"
+                style="width: 100vw !important;">
+                <span class="bg-white fw-bold p-2 rounded">
+                  <p class="m-0" style="">hi</p>
+                </span>
+                <span class="bg-white fw-bold p-2 rounded">
+                  <p class="m-0" style="">my</p>
+                </span>
+                <span class="bg-white fw-bold p-2 rounded">
+                  <p class="m-0" style="">name</p>
+                </span>
+                <span class="bg-white fw-bold p-2 rounded">
+                  <p class="m-0" style="">is</p>
+                </span>
+                <span class="bg-white fw-bold p-2 rounded">
+                  <p class="m-0" style="">alvaro</p>
+                </span>
+                <span class="bg-white fw-bold p-2 rounded">
+                  <p class="m-0" style="">nice</p>
+                </span>
+                <span class="bg-white fw-bold p-2 rounded">
+                  <p class="m-0" style="">to</p>
+                </span>
+                <span class="bg-white fw-bold p-2 rounded">
+                  <p class="m-0" style="">meet</p>
+                </span>
+                <span class="bg-white fw-bold p-2 rounded">
+                  <p class="m-0" style="">you</p>
+                </span>
+              </div>
+            </div>
           </section>
         </div>
       </div>
@@ -176,6 +232,54 @@
           }
         });
     }
+
+    const video = document.getElementById('videoElement');
+    const video2 = document.getElementById('videoElement2');
+
+    video.addEventListener('play', () => {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+
+      setInterval(() => {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = canvas.toDataURL('image/png');
+        fetch('/predict', {
+          method: 'POST',
+          body: JSON.stringify({ image: imageData }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById('gesture').innerText = data.gesture;
+          })
+          .catch(err => console.error("Error:", err));
+      }, 1000); // Capture frame every second
+    });
+
+    video2.addEventListener('play', () => {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+
+      setInterval(() => {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = canvas.toDataURL('image/png');
+        fetch('/predict', {
+          method: 'POST',
+          body: JSON.stringify({ image: imageData }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById('gesture').innerText = data.gesture;
+          })
+          .catch(err => console.error("Error:", err));
+      }, 1000); // Capture frame every second
+    });
+
 
     document.addEventListener("DOMContentLoaded", function () {
       startVideo(document.querySelector("#videoElement"));
