@@ -112,9 +112,9 @@
               <div class="rounded subtitle d-flex p-2 justify-content-center gap-2 flex-wrap"
                 style="width: 100vw !important;">
                 <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">hi</p>
+                  <p id="gesture" class="m-0" style="">hi</p>
                 </span>
-                <span class="bg-white fw-bold p-2 rounded">
+                <!-- <span class="bg-white fw-bold p-2 rounded">
                   <p class="m-0" style="">my</p>
                 </span>
                 <span class="bg-white fw-bold p-2 rounded">
@@ -137,7 +137,7 @@
                 </span>
                 <span class="bg-white fw-bold p-2 rounded">
                   <p class="m-0" style="">you</p>
-                </span>
+                </span> -->
               </div>
             </div>
           </section>
@@ -233,60 +233,47 @@
         });
     }
 
-    const video = document.getElementById('videoElement');
-    const video2 = document.getElementById('videoElement2');
-
-    video.addEventListener('play', () => {
+    function captureImage(videoElement) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
+      canvas.width = videoElement.videoWidth;
+      canvas.height = videoElement.videoHeight;
+      context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+      return canvas.toDataURL('image/png');
+    }
 
-      setInterval(() => {
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const imageData = canvas.toDataURL('image/png');
-        fetch('/predict', {
-          method: 'POST',
-          body: JSON.stringify({ image: imageData }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-          .then(response => response.json())
-          .then(data => {
-            document.getElementById('gesture').innerText = data.gesture;
-          })
-          .catch(err => console.error("Error:", err));
-      }, 1000); // Capture frame every second
-    });
-
-    video2.addEventListener('play', () => {
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-
-      setInterval(() => {
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const imageData = canvas.toDataURL('image/png');
-        fetch('/predict', {
-          method: 'POST',
-          body: JSON.stringify({ image: imageData }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-          .then(response => response.json())
-          .then(data => {
-            document.getElementById('gesture').innerText = data.gesture;
-          })
-          .catch(err => console.error("Error:", err));
-      }, 1000); // Capture frame every second
-    });
-
+    function sendImageToServer(imageData) {
+      fetch('http://127.0.0.1:5000/predict', {
+        method: 'POST',
+        body: JSON.stringify({ image: imageData }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('gesture').innerText = data.gesture;
+        console.log(data.gesture);
+      })
+      .catch(err => console.error("Error:", err));
+    }
 
     document.addEventListener("DOMContentLoaded", function () {
-      startVideo(document.querySelector("#videoElement"));
-      startVideo(document.querySelector("#videoElement2"));
+      const video1 = document.getElementById('videoElement');
+      const video2 = document.getElementById('videoElement2');
+      const interval = 1000; // Capture frame every second
+
+      startVideo(video1);
+      startVideo(video2);
+
+      setInterval(() => {
+        const imageData1 = captureImage(video1);
+        sendImageToServer(imageData1);
+
+        const imageData2 = captureImage(video2);
+        sendImageToServer(imageData2);
+      }, interval);
     });
-
-
   </script>
 </body>
 
