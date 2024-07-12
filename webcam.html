@@ -152,10 +152,13 @@
     var useFrontCamera = false;
 
     function switchCamera() {
-      console.log("Before toggle: ", useFrontCamera);
-      useFrontCamera = !useFrontCamera;
-      console.log("After toggle: ", useFrontCamera);
-      startVideo(document.querySelector("#videoElement2"));
+      if (useFrontCamera == false) {
+        useFrontCamera = true;
+        startVideo(document.querySelector("#videoElement2"));
+      } else if (useFrontCamera == true){
+        useFrontCamera = false;
+        startVideo(document.querySelector("#videoElement2"));
+      }
     }
 
     function startVideo(videoElement) {
