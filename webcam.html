@@ -149,21 +149,10 @@
     crossorigin="anonymous"></script>
 
   <script>
-    var useFrontCamera = false;
+    let useFrontCamera = false;
 
     function switchCamera() {
-      if (useFrontCamera == false) {
-        useFrontCamera = true;
-        startVideo(document.querySelector("#videoElement2"));
-      } else if (useFrontCamera == true){
-        useFrontCamera = false;
-        startVideo(document.querySelector("#videoElement2"));
-      }
-      else 
-      {
-        useFrontCamera = true;
-        startVideo(document.querySelector("#videoElement2"));
-      }
+      useFrontCamera = true;
     }
 
     function startVideo(videoElement) {
