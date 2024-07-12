@@ -159,6 +159,11 @@
         useFrontCamera = false;
         startVideo(document.querySelector("#videoElement2"));
       }
+      else 
+      {
+        useFrontCamera = !useFrontCamera;
+        startVideo(document.querySelector("#videoElement2"));
+      }
     }
 
     function startVideo(videoElement) {
