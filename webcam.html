@@ -109,12 +109,12 @@
                   <h1 class="m-0"><i class="bi bi-list text-white"></i></h1>
                 </a>
               </div>
-              <div class="rounded subtitle d-flex p-2 justify-content-center gap-2 flex-wrap"
+              <div id="subtitle-pc" class="rounded subtitle d-flex p-2 justify-content-center gap-2 flex-wrap"
                 style="width: 100vw !important;">
-                <span class="bg-white fw-bold p-2 rounded">
+                <!-- <span class="bg-white fw-bold p-2 rounded">
                   <p id="gesture" class="m-0" style="">hi</p>
                 </span>
-                <!-- <span class="bg-white fw-bold p-2 rounded">
+                <span class="bg-white fw-bold p-2 rounded">
                   <p class="m-0" style="">my</p>
                 </span>
                 <span class="bg-white fw-bold p-2 rounded">
@@ -205,6 +205,8 @@
 
   <script>
     let useFrontCamera = false;
+    let chats = []
+    let lastChat
 
     function startVideo(videoElement) {
       const constraints = {
@@ -252,8 +254,26 @@
       })
       .then(response => response.json())
       .then(data => {
-        document.getElementById('gesture').innerText = data.gesture;
-        console.log(data.gesture);
+        if (data.gesture != "undefined" && data.gesture != lastChat ) {
+          const gestureSpan = document.createElement('span');
+          gestureSpan.className = 'bg-white fw-bold p-2 rounded text-dark';
+          const gestureText = document.createTextNode(data.gesture);
+          gestureSpan.appendChild(gestureText);
+
+          if (chats.length >= 8) {
+            const firstChild = chats.shift();
+            document.getElementById('subtitle-pc').removeChild(firstChild);
+          }
+
+          chats.push(gestureSpan);
+          const subtitlePc = document.getElementById('subtitle-pc');
+          subtitlePc.appendChild(gestureSpan);
+
+          // Clear and re-add all spans to ensure correct display
+          subtitlePc.innerHTML = '';
+          chats.forEach(span => subtitlePc.appendChild(span));
+          //lastChat = data.gesture
+        }
       })
       .catch(err => console.error("Error:", err));
     }
