@@ -101,42 +101,46 @@
       <div class="row">
         <div class="col-12 p-0 m-0">
           <video autoplay="true" id="videoElement" class="w-100 img-fluid"></video>
+          <style>
+            .language-button{
+              background: #2980B9 !important;  /* fallback for old browsers */ 
+              background: -webkit-linear-gradient(to right, #88a2e7, #6DD5FA, #2980B9) !important;  /* Chrome 10-25, Safari 5.1-6 */
+              background: linear-gradient(to right, #88a2e7, #6DD5FA, #2980B9) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            .subtitle-button{
+              background: #fffbd5 !important;  /* fallback for old browsers */
+              background: -webkit-linear-gradient(to right, #b20a2c, #ff960e) !important;  /* Chrome 10-25, Safari 5.1-6 */
+              background: linear-gradient(to right, #b20a2c, #ff960e) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+          </style>
 
           <section class="content d-flex" style="width: 100vw; height: 100vh;">
             <div class="d-flex flex-column justify-content-between" style="height: 100%;">
-              <div class="p-2">
+               <div class="p-2 d-flex justify-content-between">
                 <a data-bs-toggle="offcanvas" href="#websidebar" role="button" aria-controls="websidebar">
                   <h1 class="m-0"><i class="bi bi-list text-white"></i></h1>
                 </a>
+                  <button type="button" class="btn dropdown-toggle language-button border-0 fw-bold text-white" data-bs-toggle="dropdown" aria-expanded="false">
+                    Language
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">ASL (English) (Default)</a></li>
+                    <li><a class="dropdown-item" href="#">Sibi (Indonesian)</a></li>
+                  </ul>
+                  <button type="button" class="btn dropdown-toggle subtitle-button border-0 fw-bold text-white" data-bs-toggle="dropdown" aria-expanded="false">
+                    Subtitle
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">English (Default)</a></li>
+                    <li><a class="dropdown-item" href="#">Indonesian</a></li>
+                  </ul>
+                <p></p>
               </div>
               <div id="subtitle-pc" class="rounded subtitle d-flex p-2 justify-content-center gap-2 flex-wrap"
                 style="width: 100vw !important;">
                 <!-- <span class="bg-white fw-bold p-2 rounded">
                   <p id="gesture" class="m-0" style="">hi</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">my</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">name</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">is</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">alvaro</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">nice</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">to</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">meet</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">you</p>
                 </span> -->
               </div>
             </div>
@@ -164,34 +168,10 @@
         <div class="row">
           <div class="col-12 p-0">
             <div class="p-3 rounded-top subtitle" style="height: 40vh;">
-              <div class="d-flex flex-wrap gap-2">
-                <span class="bg-white fw-bold p-2 rounded">
+              <div id="subtitle-mobile" class="d-flex flex-wrap gap-2">
+                <!-- <span class="bg-white fw-bold p-2 rounded">
                   <p class="m-0" style="">hi</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">my</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">name</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">is</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">alvaro</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">nice</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">to</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">meet</p>
-                </span>
-                <span class="bg-white fw-bold p-2 rounded">
-                  <p class="m-0" style="">you</p>
-                </span>
+                </span> -->
               </div>
             </div>
           </div>
@@ -272,7 +252,7 @@
           // Clear and re-add all spans to ensure correct display
           subtitlePc.innerHTML = '';
           chats.forEach(span => subtitlePc.appendChild(span));
-          //lastChat = data.gesture
+          lastChat = data.gesture
         }
       })
       .catch(err => console.error("Error:", err));
